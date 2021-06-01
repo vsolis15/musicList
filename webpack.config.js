@@ -1,5 +1,7 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   context: resolve(__dirname, 'src'),
@@ -10,9 +12,9 @@ module.exports = {
     './index.jsx',
   ],
   output: {
-    filename: 'build.js',
+    filename: 'javascripts/build.js',
     path: '/',
-    publicPath: '/javascripts',
+    publicPath: '/',
   },
   // devServer: {
   //  hot: true,
@@ -30,6 +32,29 @@ module.exports = {
         exclude: /(node_modules|bower_components|public\/)/,
         loader: 'babel-loader',
       },
+      {
+        test: /\.css$/,
+        use: [ MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          MiniCssExtractPlugin.loader, 
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              sourceMap: true
+            }
+          }, 
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          }
+        ]
+      },
     ],
   },
   optimization: {
@@ -38,5 +63,9 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    // new ExtractTextPlugin('stylesheets/style.css'),
+    new MiniCssExtractPlugin({
+      filename: 'stylesheets/style.css'
+    }),
   ],
 };
