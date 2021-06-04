@@ -8,6 +8,7 @@ const User = new Myschema({
   password: { type: String, select: false },
   firstName: String,
   lastName: String,
+  email: String,
 });
 
 User.plugin(passportLocalMongoose);

@@ -1,27 +1,46 @@
+// Default export from a module
 import React from 'react';
-import { render } from 'react-dom';
+// Individual method exports from a module
 import { AppContainer } from 'react-hot-loader';
-import 'bootstrap/dist/css/bootstrap.css';
-import './css/musiclist.scss';
-// import './style.css';
-// import './main.css'
+import { Provider } from 'react-redux';
+import { render } from 'react-dom';
 
-import Template from './components/Template';
+// CSS from a module
+import 'bootstrap/dist/css/bootstrap.css';
+
+// CSS from a local file
+import './css/musiclist.scss';
+
+// Default export from a local file
+import DevTools from './components/shared/DevTools';
+import configureStore from './store';
+
+import TemplateContainer from './components/TemplateContainer';
+
+const Store = configureStore();
 
 const renderApp = (Component) => {
-    render(
-        <AppContainer>
-            <Component headline="Test Headline" count={5678} showCount />
-        </AppContainer>,
-        document.querySelector('#react-app'),
-    );
+  render(
+    <AppContainer>
+      <Provider store={Store}>
+        <div>
+          <Component />
+          <DevTools />
+        </div>
+      </Provider>
+    </AppContainer>,
+    document.querySelector('#react-app'),
+  );
 };
 
-renderApp(Template);
+renderApp(TemplateContainer);
 
 if (module && module.hot) {
   module.hot.accept();
   // module.hot.accept('./components/Template', () => {
   //    renderApp(Template);
   // });
+  // Possible Babel: "babel-preset-es2017": "^6.24.1",
+  //     "webpack-dev-server": "^3.11.2"
+  //     "babel-core": "^6.26.3",
 }
