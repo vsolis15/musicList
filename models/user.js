@@ -9,6 +9,7 @@ const User = new Myschema({
   firstName: String,
   lastName: String,
   email: String,
+  passwordReset: { type: String, select: false },
 });
 
 User.plugin(passportLocalMongoose);

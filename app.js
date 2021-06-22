@@ -1,17 +1,18 @@
 require("@babel/register");
+const appConfig = require('./config.js')
 const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
 const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const mongoose = require('mongoose');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const express = require('express');
 const expressSession = require('express-session')({
-  secret: 'my_secret_string',
+  secret: appConfig.expressSession.secret,
   resave: false,
   saveUninitialized: false,
 });
+const LocalStrategy = require('passport-local').Strategy;
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const path = require('path');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config');
 const webpackDevMiddleware = require('webpack-dev-middleware');
